@@ -6,11 +6,11 @@ A vscode extension to assist in debugging [SCIP](https://github.com/sourcegraph/
 
 Annotates and provides additional information on hover for occurrences within an indexed file
 
-![annotations](doc/annotations.mov)
+https://github.com/user-attachments/assets/10bb3f5a-cd22-456f-afe2-527a47382f12
 
 Provides a tree view for navigating the indexed scip file
 
-![tree-view](doc/tree-view.mov)
+https://github.com/user-attachments/assets/433c974f-fe57-426f-99c6-f301b360b733
 
 ## Requirements
 
