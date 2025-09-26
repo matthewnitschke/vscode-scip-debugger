@@ -3,8 +3,9 @@
   "displayName": "SCIP Debugger",
   "description": "Debug scip indexes locally",
   "publisher": "matthew-nitschke",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "repository": "https://github.com/matthewnitschke/vscode-scip-debugger",
+  "icon": "images/logo.png",
   "engines": {
     "vscode": "^1.104.0"
   },
@@ -18,13 +19,28 @@
       {
         "command": "scip-debugger.apply",
         "title": "Apply SCIP Index"
+      },
+      {
+        "command": "scip-debugger.refresh",
+        "title": "Refresh SCIP Index",
+        "icon": "$(refresh)"
       }
     ],
     "views": {
       "explorer": [
         {
           "id": "scip-debugger",
-          "name": "SCIP Debugger"
+          "name": "SCIP Debugger",
+          "when": "scip-debugger.hasApplied"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "scip-debugger.refresh",
+          "when": "view == scip-debugger",
+          "group": "navigation"
         }
       ]
     }

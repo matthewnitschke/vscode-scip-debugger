@@ -50,14 +50,14 @@ export default class SCIPTreeDataProvider extends DeclarativeTreeProvider {
       { 
         label: 'External Symbols',
         iconPath: new vscode.ThemeIcon('link-external'),
-        children: data.external_symbols.map((symb) => ({
+        children: data.external_symbols?.map((symb) => ({
           label: symb.symbol,
           children: [
             { label: 'Display Name', description: symb.display_name ?? '<undefined>' },
             { label: 'Documentation', description: symb.documentation.join('\n') },
             { label: 'Kind', description: scip.SymbolInformationKind[symb.kind] }
           ]
-        }))
+        })) ?? []
       }
     ])
   }
