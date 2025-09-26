@@ -1,8 +1,10 @@
 {
   "name": "scip-debugger",
-  "displayName": "scip-debugger",
+  "displayName": "SCIP Debugger",
   "description": "Debug scip indexes locally",
+  "publisher": "matthew-nitschke",
   "version": "0.0.1",
+  "repository": "https://github.com/matthewnitschke/vscode-scip-debugger",
   "engines": {
     "vscode": "^1.104.0"
   },
