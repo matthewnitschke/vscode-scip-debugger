@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
 
 export interface TreeItem extends vscode.TreeItem {
-  children?: TreeItem[];  
+  children?: TreeItem[];
+  [key: string]: any
 }
 
 export default class DeclarativeTreeProvider

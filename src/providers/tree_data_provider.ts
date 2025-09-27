@@ -13,6 +13,10 @@ export default class SCIPTreeDataProvider extends DeclarativeTreeProvider {
       { 
         label: 'Metadata',
         iconPath: new vscode.ThemeIcon('info'),
+
+        selector: (data: scip.Index) => data.metadata,
+        contextValue: 'hasSelector',
+
         children: [
           { label: 'Project Root', description: data.metadata.project_root },
           { label: 'Tool Name', description: data.metadata.tool_info.name },
@@ -22,12 +26,24 @@ export default class SCIPTreeDataProvider extends DeclarativeTreeProvider {
       {
         label: 'Documents',
         iconPath: new vscode.ThemeIcon('files'),
-        children: data.documents.map((doc) => ({
+
+        selector: (data: scip.Index) => data.documents,
+        contextValue: 'hasSelector',
+
+        children: data.documents.map((doc, i) => ({
           resourceUri: vscode.Uri.file(doc.relative_path),
           iconPath: vscode.ThemeIcon.File,
-          children: doc.occurrences.map((occ) => ({
+
+          selector: (data: scip.Index) => data.documents[i],
+          contextValue: 'hasSelector',
+
+          children: doc.occurrences.map((occ, j) => ({
             label: `${occ.range[0]}:${occ.range[1]}`,
             description: this.getSymbolDisplayName(occ.symbol),
+
+            selector: (data: scip.Index) => data.documents[i].occurrences[j],
+            contextValue: 'hasSelector',
+
             children: [
               { label: 'Symbol', description: occ.symbol },
               { label: 'Range', description: occ.range.toString() },

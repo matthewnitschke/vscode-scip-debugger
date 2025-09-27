@@ -1,13 +1,17 @@
 import * as vscode from "vscode";
 import { runCommandInShell } from "./utils";
-import { SCIPCodeLenseProvider } from "./providers/code_lense_provider";
 import { SCIPHoverProvider } from "./providers/hover_provider";
 import { SCIPDecoratorProvider } from "./providers/decorator_provider";
-import DeclarativeTreeProvider from "./declarative_tree_provider";
 import SCIPTreeDataProvider from "./providers/tree_data_provider";
+import * as path from "path";
+import * as scip from "./models";
+
+import * as fs from "fs";
 
 export function activate(context: vscode.ExtensionContext) {
   let scipIndexPath: string | undefined;
+  let fileWatcher: fs.FSWatcher | undefined;
+  let scipData: scip.Index | undefined;
 
   let hoverProvider = new SCIPHoverProvider();
   let decorationProvider = new SCIPDecoratorProvider();
@@ -23,14 +27,22 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    let data = await runCommandInShell("scip", ["print", "--json", scipIndexPath], {
-      cwd: vscode.workspace.workspaceFolders![0].uri.fsPath,
-    });
-    let parsedData = JSON.parse(data);
+    let data = await runCommandInShell(
+      "scip",
+      ["print", "--json", scipIndexPath],
+      {
+        cwd: vscode.workspace.workspaceFolders![0].uri.fsPath,
+      }
+    );
+    scipData = JSON.parse(data);
 
     if (!hasInitialized) {
       hasInitialized = true;
-      vscode.commands.executeCommand('setContext', 'scip-debugger.hasApplied', true);
+      vscode.commands.executeCommand(
+        "setContext",
+        "scip-debugger.hasApplied",
+        true
+      );
       vscode.window.createTreeView("scip-debugger", { treeDataProvider });
       context.subscriptions.push(
         vscode.languages.registerHoverProvider(
@@ -40,9 +52,9 @@ export function activate(context: vscode.ExtensionContext) {
       );
     }
 
-    hoverProvider.scipData = parsedData;
-    decorationProvider.scipData = parsedData;
-    treeDataProvider.setData(parsedData);
+    hoverProvider.scipData = scipData;
+    decorationProvider.scipData = scipData;
+    treeDataProvider.setData(scipData!);
 
     decorationProvider.applyDecorations(vscode.window.activeTextEditor);
   }
@@ -59,7 +71,30 @@ export function activate(context: vscode.ExtensionContext) {
 
           scipIndexPath = res;
           applyFromFile();
+
+          if (fileWatcher) {
+            fileWatcher.close();
+          }
+          fileWatcher = fs.watch(
+            path.join(
+              vscode.workspace.workspaceFolders![0].uri.fsPath,
+              scipIndexPath
+            ),
+            applyFromFile
+          );
         });
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("scip-debugger.showRawData", async (node) => {
+      let data = node.selector(scipData);
+
+      const doc = await vscode.workspace.openTextDocument({
+        content: JSON.stringify(data, undefined, 2),
+        language: "json",
+      });
+      await vscode.window.showTextDocument(doc, { preview: true });
     })
   );
 
