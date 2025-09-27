@@ -94,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
         content: JSON.stringify(data, undefined, 2),
         language: "json",
       });
-      await vscode.window.showTextDocument(doc, { preview: true });
+      await vscode.window.showTextDocument(doc, { preview: true, });
     })
   );
 
