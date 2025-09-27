@@ -53,7 +53,16 @@
           "when": "view == scip-debugger && viewItem == hasSelector"
         }
       ]
-    }
+    },
+    "customEditors": [
+      {
+        "viewType": "scip-debugger.binaryViewer",
+        "displayName": "SCIP Binary",
+        "selector": [
+          { "filenamePattern": "*.scip" }
+        ]
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",

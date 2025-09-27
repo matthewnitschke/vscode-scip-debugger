@@ -7,6 +7,7 @@ import * as path from "path";
 import * as scip from "./models";
 
 import * as fs from "fs";
+import { SCIPBinaryContentProvider, SCIPCustomEditorProvider } from "./providers/editor_provider";
 
 export function activate(context: vscode.ExtensionContext) {
   let scipIndexPath: string | undefined;
@@ -99,7 +100,10 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("scip-debugger.refresh", applyFromFile)
+    vscode.commands.registerCommand("scip-debugger.refresh", applyFromFile),
+
+    vscode.workspace.registerTextDocumentContentProvider('scip-text', new SCIPBinaryContentProvider()),
+    vscode.window.registerCustomEditorProvider('scip-debugger.binaryViewer', new SCIPCustomEditorProvider())
   );
 }
 
