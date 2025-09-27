@@ -8,7 +8,6 @@ export class SCIPBinaryContentProvider implements vscode.TextDocumentContentProv
   }
 }
 
-
 export class SCIPCustomEditorProvider implements vscode.CustomReadonlyEditorProvider {
   async openCustomDocument(uri: vscode.Uri): Promise<vscode.CustomDocument> {
     return { uri, dispose: () => {} };
@@ -21,7 +20,7 @@ export class SCIPCustomEditorProvider implements vscode.CustomReadonlyEditorProv
     const virtualUri = vscode.Uri.parse(`scip-text:${document.uri.fsPath}`);
     const doc = await vscode.workspace.openTextDocument(virtualUri);
     vscode.languages.setTextDocumentLanguage(doc, 'json')
-    
+
     await vscode.window.showTextDocument(doc, panel.viewColumn);
     panel.dispose(); // close the empty webview panel
   }

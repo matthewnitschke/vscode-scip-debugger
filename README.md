@@ -12,6 +12,10 @@ Provides a tree view for navigating the indexed scip file
 
 https://github.com/user-attachments/assets/433c974f-fe57-426f-99c6-f301b360b733
 
+Implements a readonly viewer for *.scip files which decodes the protobuf binary into its json representation
+
+_TODO: Show a video_
+
 ## Requirements
 
 The [SCIP cli](https://github.com/sourcegraph/scip) must be installed and available to your path in order to run
