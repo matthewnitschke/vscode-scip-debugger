@@ -18,7 +18,7 @@
     "commands": [
       {
         "command": "scip-debugger.apply",
-        "title": "Apply SCIP Index"
+        "title": "Debug SCIP Index"
       },
       {
         "command": "scip-debugger.refresh",
@@ -40,6 +40,13 @@
       ]
     },
     "menus": {
+      "explorer/context": [
+        {
+          "command": "scip-debugger.apply",
+          "when": "resourceFilename =~ /\\.scip$/",
+          "group": "navigation"
+        }
+      ],
       "view/title": [
         {
           "command": "scip-debugger.refresh",
