@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { runCommandInShell } from "./utils";
+import { outputChannel, runCommandInShell } from "./utils";
 import { SCIPHoverProvider } from "./providers/hover_provider";
 import { SCIPDecoratorProvider } from "./providers/decorator_provider";
 import SCIPTreeDataProvider from "./providers/tree_data_provider";
@@ -61,29 +61,33 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("scip-debugger.apply", () => {
-      vscode.window
-        .showInputBox({
-          title: "Enter path to SCIP index file",
-          value: "./index.scip",
-        })
-        .then(async (res) => {
-          if (!res) return;
+    vscode.commands.registerCommand("scip-debugger.apply", (uri: vscode.Uri) => {
+      const applyIndex = (indexPath: string) => {
+        scipIndexPath = indexPath;
+        applyFromFile();
 
-          scipIndexPath = res;
-          applyFromFile();
+        if (fileWatcher) {
+          fileWatcher.close();
+        }
+        fileWatcher = fs.watch(
+          scipIndexPath,
+          applyFromFile
+        );
+      };
 
-          if (fileWatcher) {
-            fileWatcher.close();
-          }
-          fileWatcher = fs.watch(
-            path.join(
-              vscode.workspace.workspaceFolders![0].uri.fsPath,
-              scipIndexPath
-            ),
-            applyFromFile
-          );
-        });
+      if (uri) {
+        applyIndex(uri.fsPath);
+      } else {
+        vscode.window
+          .showInputBox({
+            title: "Enter path to SCIP index file",
+            value: "./index.scip",
+          })
+          .then(async (res) => {
+            if (!res) return;
+            applyIndex(res);
+          });
+      }
     })
   );
 
