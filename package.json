@@ -18,8 +18,7 @@
     "commands": [
       {
         "command": "scip-debugger.apply",
-        "title": "Debug SCIP Index",
-        "when": "false"
+        "title": "Debug SCIP Index"
       },
       {
         "command": "scip-debugger.refresh",
@@ -41,7 +40,7 @@
         {
           "command": "scip-debugger.apply",
           "when": "resourceFilename =~ /\\.scip$/",
-          "group": "navigation"
+          "group": "scip@0"
         }
       ],
       "view/title": [

@@ -23,58 +23,59 @@ export default class SCIPTreeDataProvider extends DeclarativeTreeProvider {
           { label: 'Tool Version', description: data.metadata.tool_info.version },
         ],
       },
-      {
-        label: 'Documents',
-        iconPath: new vscode.ThemeIcon('files'),
+      // {
+      //   label: 'Documents',
+      //   iconPath: new vscode.ThemeIcon('files'),
 
-        selector: (data: scip.Index) => data.documents,
-        contextValue: 'hasSelector',
+      //   selector: (data: scip.Index) => data.documents,
+      //   contextValue: 'hasSelector',
 
-        children: data.documents.map((doc, i) => ({
-          resourceUri: vscode.Uri.file(doc.relative_path),
-          iconPath: vscode.ThemeIcon.File,
+      //   children: data.documents.map((doc, i) => ({
+      //     resourceUri: vscode.Uri.file(doc.relative_path),
+      //     iconPath: vscode.ThemeIcon.File,
 
-          selector: (data: scip.Index) => data.documents[i],
-          contextValue: 'hasSelector',
+      //     selector: (data: scip.Index) => data.documents[i],
+      //     contextValue: 'hasSelector',
 
-          children: doc.occurrences.map((occ, j) => ({
-            label: `${occ.range[0]}:${occ.range[1]}`,
-            description: this.getSymbolDisplayName(occ.symbol),
+      //     children: doc.occurrences.map((occ, j) => ({
+      //       label: `${occ.range[0]}:${occ.range[1]}`,
+      //       description: this.getSymbolDisplayName(occ.symbol),
 
-            selector: (data: scip.Index) => data.documents[i].occurrences[j],
-            contextValue: 'hasSelector',
+      //       selector: (data: scip.Index) => data.documents[i].occurrences[j],
+      //       contextValue: 'hasSelector',
 
-            children: [
-              { label: 'Symbol', description: occ.symbol },
-              { label: 'Range', description: occ.range.toString() },
-              { label: 'Symbol Role', description: scip.SymbolRole[occ.symbol_roles ?? 0] },
-              { label: 'Syntax Kind', description: scip.SyntaxKind[occ.syntax_kind ?? 0] },
-              ...(occ.diagnostics && occ.diagnostics.length > 0
-                ? [{ 
-                  label: 'Diagnostics',
-                  children: occ.diagnostics?.map((diag) => ({
-                    label: diag.code,
-                    description: diag.message
-                  }))
-                }]
-                : []
-              )
-            ]
-          }))
-        }))
-      },
-      { 
-        label: 'External Symbols',
-        iconPath: new vscode.ThemeIcon('link-external'),
-        children: data.external_symbols?.map((symb) => ({
-          label: symb.symbol,
-          children: [
-            { label: 'Display Name', description: symb.display_name ?? '<undefined>' },
-            { label: 'Documentation', description: symb.documentation.join('\n') },
-            { label: 'Kind', description: scip.SymbolInformationKind[symb.kind] }
-          ]
-        })) ?? []
-      }
+      //       children: [
+      //         { label: 'Symbol', description: occ.symbol },
+      //         { label: 'Range', description: occ.range.toString() },
+      //         { label: 'Symbol Role', description: scip.SymbolRole[occ.symbol_roles ?? 0] },
+      //         { label: 'Syntax Kind', description: scip.SyntaxKind[occ.syntax_kind ?? 0] },
+      //         ...(occ.diagnostics && occ.diagnostics.length > 0
+      //           ? [{ 
+      //             label: 'Diagnostics',
+      //             children: occ.diagnostics?.map((diag) => ({
+      //               label: diag.code,
+      //               description: diag.message
+      //             }))
+      //           }]
+      //           : []
+      //         )
+      //       ]
+      //     }))
+      //   }))
+      // },
+      // { 
+      //   label: 'External Symbols',
+      //   iconPath: new vscode.ThemeIcon('link-external'),
+      //   children: [],
+      //   // children: data.external_symbols?.map((symb) => ({
+      //   //   label: symb.symbol,
+      //   //   children: [
+      //   //     { label: 'Display Name', description: symb.display_name ?? '<undefined>' },
+      //   //     { label: 'Documentation', description: symb.documentation.join('\n') },
+      //   //     { label: 'Kind', description: scip.SymbolInformationKind[symb.kind] }
+      //   //   ]
+      //   // })) ?? []
+      // }
     ])
   }
 
