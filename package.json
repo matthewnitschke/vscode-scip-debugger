@@ -51,6 +51,16 @@
         }
       ]
     },
+    "languages": [
+      {
+        "id": "scip",
+        "extensions": [".scip"],
+        "icon": {
+          "dark": "images/scip-icon-color.png",
+          "light": "images/scip-icon-color.png"
+        }
+      }
+    ],
     "customEditors": [
       {
         "viewType": "scip-debugger.binaryViewer",
