@@ -18,16 +18,13 @@
     "commands": [
       {
         "command": "scip-debugger.apply",
-        "title": "Debug SCIP Index"
+        "title": "Debug SCIP Index",
+        "when": "false"
       },
       {
         "command": "scip-debugger.refresh",
         "title": "Refresh SCIP Index",
         "icon": "$(refresh)"
-      },
-      {
-        "command": "scip-debugger.showRawData",
-        "title": "Show Raw Data"
       }
     ],
     "views": {
@@ -52,12 +49,6 @@
           "command": "scip-debugger.refresh",
           "when": "view == scip-debugger",
           "group": "navigation"
-        }
-      ],
-      "view/item/context": [
-        {
-          "command": "scip-debugger.showRawData",
-          "when": "view == scip-debugger && viewItem == hasSelector"
         }
       ]
     },

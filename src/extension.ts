@@ -92,18 +92,6 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("scip-debugger.showRawData", async (node) => {
-      let data = node.selector(scipData);
-
-      const doc = await vscode.workspace.openTextDocument({
-        content: JSON.stringify(data, undefined, 2),
-        language: "json",
-      });
-      await vscode.window.showTextDocument(doc, { preview: true, });
-    })
-  );
-
-  context.subscriptions.push(
     vscode.commands.registerCommand("scip-debugger.refresh", applyFromFile),
 
     vscode.workspace.registerTextDocumentContentProvider('scip-text', new SCIPBinaryContentProvider()),
